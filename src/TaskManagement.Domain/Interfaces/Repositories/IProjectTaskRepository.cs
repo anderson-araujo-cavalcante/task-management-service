@@ -1,6 +1,6 @@
 ﻿using TaskManagement.Domain.Entities;
 
-namespace TaskManagement.Data.Interfaces.Repositories
+namespace TaskManagement.Domain.Interfaces.Repositories
 {
     public interface IProjectTaskRepository : IRepositoryBase<ProjectTask>
     {

@@ -1,4 +1,4 @@
-﻿namespace TaskManagement.Data.Interfaces.Repositories
+﻿namespace TaskManagement.Domain.Interfaces.Repositories
 {
     public interface IRepositoryBase<TEntity> where TEntity : class
     {
