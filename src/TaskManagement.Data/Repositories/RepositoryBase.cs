@@ -25,7 +25,7 @@ namespace TaskManagement.Data.Repositories
             await _context.SaveChangesAsync();
         }
 
-        public async Task<TEntity> GetByIdAsync(int id)
+        public virtual async Task<TEntity> GetByIdAsync(int id)
         {
             return await dbSet.AsNoTracking().FirstOrDefaultAsync(e => e.Id == id);
         }
@@ -35,13 +35,13 @@ namespace TaskManagement.Data.Repositories
             return await dbSet.AsNoTracking().ToListAsync();
         }
 
-        public async Task UpdateAsync(TEntity entity)
+        public virtual async Task UpdateAsync(TEntity entity)
         {
             dbSet.Update(entity);
             await _context.SaveChangesAsync();
         }
 
-        public async Task RemoveAsync(int id)
+        public virtual async Task RemoveAsync(int id)
         {
             var entity = await GetByIdAsync(id);
             dbSet.Remove(entity);
