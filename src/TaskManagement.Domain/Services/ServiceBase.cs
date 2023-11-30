@@ -3,9 +3,9 @@ using TaskManagement.Domain.Interfaces.Services;
 
 namespace TaskManagement.Domain.Services
 {
-    public class ServiceBase<TEntity> : IDisposable, IServiceBase<TEntity> where TEntity : class
+    public abstract class ServiceBase<TEntity> : IDisposable, IServiceBase<TEntity> where TEntity : class
     {
-        private readonly IRepositoryBase<TEntity> _repository;
+        protected readonly IRepositoryBase<TEntity> _repository;
 
         public ServiceBase(IRepositoryBase<TEntity> repository)
         {

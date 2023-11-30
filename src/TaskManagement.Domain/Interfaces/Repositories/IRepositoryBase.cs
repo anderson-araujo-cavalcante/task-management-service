@@ -1,8 +1,6 @@
-﻿using TaskManagement.Domain.Entities;
-
-namespace TaskManagement.Domain.Interfaces.Repositories
+﻿namespace TaskManagement.Domain.Interfaces.Repositories
 {
-    public interface IRepositoryBase<TEntity> where TEntity : class, IEntity
+    public interface IRepositoryBase<TEntity> where TEntity : class
     {
         Task AddAsync(TEntity obj);
         Task<TEntity> GetByIdAsync(int id);
