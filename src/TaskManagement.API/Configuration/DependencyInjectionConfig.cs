@@ -1,6 +1,8 @@
 ﻿using TaskManagement.Data.Context;
+using TaskManagement.Data.Repositories;
 using TaskManagement.Domain.Interfaces.Repositories;
 using TaskManagement.Domain.Interfaces.Services;
+using TaskManagement.Domain.Services;
 
 namespace TaskManagement.API.Configuration
 {
@@ -10,9 +12,11 @@ namespace TaskManagement.API.Configuration
         {
             services.AddScoped<TaskManagementContext>();
 
-            services.AddScoped<IProjectService, IProjectService>();
+            services.AddScoped<IProjectService, ProjectService>();
+            services.AddScoped<IProjectTaskService, ProjectTaskService>();
 
-            services.AddScoped<IProjectTaskRepository, IProjectTaskRepository>();
+            services.AddScoped<IProjectRepository, ProjectRepository>();
+            services.AddScoped<IProjectTaskRepository, ProjectTaskRepository>();
 
             return services;
         }
