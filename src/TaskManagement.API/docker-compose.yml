@@ -1,0 +1,19 @@
+version: '3.9'
+
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: mysql
+    ports:
+      - "3306:3306"
+    environment:
+      - MYSQL_DATABASE=TaskManagementDb
+      - MYSQL_PASSWORD=MyPass@word
+      - MYSQL_USER=sa
+      - MYSQL_ROOT_PASSWORD=123456
+    volumes:
+      - mysqldata:/var/lib/mysql  
+
+volumes:
+  mysqldata:
+    external: false
