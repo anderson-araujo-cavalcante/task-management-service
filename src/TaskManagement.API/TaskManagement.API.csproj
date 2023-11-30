@@ -14,4 +14,9 @@
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\TaskManagement.Data\TaskManagement.Data.csproj" />
+    <ProjectReference Include="..\TaskManagement.Domain\TaskManagement.Domain.csproj" />
+  </ItemGroup>
+
 </Project>
