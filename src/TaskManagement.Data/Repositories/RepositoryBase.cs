@@ -1,8 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System.Linq;
 using System.Linq.Expressions;
 using TaskManagement.Data.Context;
-using TaskManagement.Domain.Entities;
 using TaskManagement.Domain.Interfaces.Repositories;
 
 namespace TaskManagement.Data.Repositories
@@ -15,12 +13,10 @@ namespace TaskManagement.Data.Repositories
         #region Ctor
         public RepositoryBase(TaskManagementContext dbContext)
         {
-            _context = dbContext;
+            _context = dbContext ?? throw new ArgumentNullException(nameof(dbContext));
             dbSet = _context.Set<TEntity>();
         }
-        #endregion 
-
-       
+        #endregion        
 
         public virtual async Task<IEnumerable<TEntity>> GetAllAsync(Expression<Func<TEntity, bool>> predicate)
         {
