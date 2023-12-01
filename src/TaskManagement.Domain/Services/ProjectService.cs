@@ -19,7 +19,5 @@ namespace TaskManagement.Domain.Services
 
             await DeleteAsync(id);
         }
-
-
     }
 }

@@ -1,17 +1,15 @@
 ﻿using TaskManagement.Domain.Enuns;
 
-namespace TaskManagement.Domain.Entities
+namespace TaskManagement.Domain.DTOs.ProjectTask
 {
-    public class ProjectTask : IEntity
+    public class ProjectTaskEditDTO
     {
         public int Id { get; set; }
-        public DateTime CreatedAt { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
         public DateTime ExpirationDate { get; set; }
         public Enuns.TaskStatus Status { get; set; }
         public TaskPriority TaskPriority { get; set; }
         public int ProjectId { get; set; }
-        public Project Project { get; set; }
     }
 }

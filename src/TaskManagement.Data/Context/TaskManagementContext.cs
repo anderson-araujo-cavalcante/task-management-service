@@ -11,5 +11,6 @@ namespace TaskManagement.Data.Context
 
         public DbSet<ProjectTask> Tasks { get; set; }
         public DbSet<Project> Projects { get; set; }
+        public DbSet<Historic> Historics { get; set; }
     }
 }

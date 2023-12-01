@@ -1,13 +1,19 @@
-﻿using TaskManagement.Domain.Entities;
+﻿using System.Globalization;
+using TaskManagement.Domain.Entities;
 using TaskManagement.Domain.Interfaces.Repositories;
 using TaskManagement.Domain.Interfaces.Services;
+using TaskManagement.Domain.Extensions;
 
 namespace TaskManagement.Domain.Services
 {
     public class ProjectTaskService : ServiceBase<ProjectTask>, IProjectTaskService
     {
-        public ProjectTaskService(IProjectTaskRepository projectTaskRepository) : base(projectTaskRepository)
+        private readonly IHistoricRepository _historicRepository;
+        public ProjectTaskService(IProjectTaskRepository projectTaskRepository,
+            IHistoricRepository historicRepository) 
+            : base(projectTaskRepository)
         {
+            _historicRepository = historicRepository ?? throw new ArgumentNullException(nameof(historicRepository)); ;
         }
 
         public async Task<IEnumerable<ProjectTask>> GetByProjectIdAsync(int id)
@@ -19,6 +25,9 @@ namespace TaskManagement.Domain.Services
 
             if (projectTaskEdit.Status != projectTask.Status) throw new Exception("Não é permitido alterar a prioridade de uma tarefa depois que ela foi criada.");
 
+
+            
+
             projectTaskEdit.Title = projectTask.Title;
             projectTaskEdit.Description = projectTask.Description;
             projectTaskEdit.ExpirationDate = projectTask.ExpirationDate;
@@ -27,7 +36,7 @@ namespace TaskManagement.Domain.Services
             await _repository.UpdateAsync(projectTask);
         }
 
-        public async Task AddAsync(ProjectTask projectTask)
+        public async Task AddAsync(ProjectTask projectTask, int lastUpdateUser)
         {
             if (projectTask.Status == 0) throw new Exception("A tarefa deve ter uma prioridade atribuída (baixa, média, alta).");
 
@@ -35,8 +44,23 @@ namespace TaskManagement.Domain.Services
 
             var taskLimite = 20;
             if(totalProjects >= taskLimite) throw new Exception("Limite de tarefas atingido para este projeto.");
-
+            
             await _repository.AddAsync(projectTask);
+            await _historicRepository.AddRangeAsync(projectTask.BuildHistoric(lastUpdateUser: lastUpdateUser));
         }
     }
+
+    //public static class ModelExtensions
+    //{
+    //    public static IEnumerable<KeyValuePair<string, object>> ValoresDiferentes<T>(this T obj, T modifiedObject)
+    //    {
+    //        foreach (var property in typeof(T).GetProperties().Where(p => !p.GetGetMethod().IsVirtual))
+    //        {
+    //            if (property.GetValue(obj).ToString() != property.GetValue(modifiedObject).ToString())
+    //            {
+    //                yield return new KeyValuePair<string, object>(property.Name, property.GetValue(modifiedObject));
+    //            }
+    //        }
+    //    }
+    //}
 }
