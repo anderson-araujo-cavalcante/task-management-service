@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TaskManagement.Domain.DTO
+namespace TaskManagement.Domain.DTOs.Project
 {
     public class ProjectEditDTO
     {
