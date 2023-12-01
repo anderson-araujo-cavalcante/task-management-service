@@ -9,5 +9,8 @@ namespace TaskManagement.Domain.Services
         public ProjectTaskService(IProjectTaskRepository projectTaskRepository) : base(projectTaskRepository)
         {
         }
+
+        public async Task<IEnumerable<ProjectTask>> GetByProjectIdAsync(int id)
+            => await _repository.GetAllAsync(x => x.ProjectId == id);
     }
 }
