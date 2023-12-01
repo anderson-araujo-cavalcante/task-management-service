@@ -10,6 +10,7 @@ namespace TaskManagement.API.Configuration
             var autoMapperConfig = new MapperConfiguration(cfg =>
             {
                 cfg.AddProfile<ProjectProfile>();
+                cfg.AddProfile<ProjectTaskProfile>();
             });
 
             services.AddSingleton(autoMapperConfig.CreateMapper());
