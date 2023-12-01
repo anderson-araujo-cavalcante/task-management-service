@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using TaskManagement.Domain.DTOs.Project;
+using TaskManagement.Domain.DTOs.ProjectTask;
 using TaskManagement.Domain.Entities;
 using TaskManagement.Domain.Interfaces.Services;
 using TaskManagement.Domain.Services;
@@ -23,31 +24,31 @@ namespace TaskManagement.API.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> GetByIdAsync(int id)
         {
-            var project = await _projectTaskService.GetByIdAsync(id);
-            return Ok(_mapper.Map<ProjectDTO>(project));
+            var projectTask = await _projectTaskService.GetByIdAsync(id);
+            return Ok(_mapper.Map<ProjectTaskDTO>(projectTask));
         }
 
-        [HttpPost]
-        public async Task<IActionResult> Add(ProjectCreateDTO productDto)
+        [HttpPost("{userUpdate}")]
+        public async Task<IActionResult> AddAsync(int userUpdate, ProjectTaskCreateDTO productTaskDto)
         {
-            var project = _mapper.Map<Project>(productDto);
-            await _projectTaskService.AddAsync(project);
+            var projectTask = _mapper.Map<ProjectTask>(productTaskDto);
+            await _projectTaskService.AddAsync(projectTask, userUpdate);
             return Ok();
         }
 
-        [HttpPut]
-        public async Task<IActionResult> Edit([FromBody] ProjectEditDTO projectDTO)
+        [HttpPut("{userUpdate}")]
+        public async Task<IActionResult> EditAsync(int userUpdate, [FromBody] ProjectTaskEditDTO projectTaskDTO)
         {
-            var project = _mapper.Map<Project>(projectDTO);
-            await _projectTaskService.UpdateAsync(project);
+            var projectTask = _mapper.Map<ProjectTask>(projectTaskDTO);
+            await _projectTaskService.UpdateAsync(projectTask, userUpdate);
             return Ok();
         }
 
-        [HttpGet("user/{id}")]
-        public async Task<ActionResult<IEnumerable<ProjectDTO>>> GetByUserIdAsync(int id)
-        {
-            var project = await _projectTaskService.GetByUserIdAsync(id);
-            return Ok(_mapper.Map<IEnumerable<ProjectDTO>>(project));
-        }
+        //[HttpGet("user/{id}")]
+        //public async Task<ActionResult<IEnumerable<ProjectTaskDTO>>> GetByUserIdAsync(int id)
+        //{
+        //    var projectTask = await _projectTaskService.GetByUserIdAsync(id);
+        //    return Ok(_mapper.Map<IEnumerable<ProjectTaskDTO>>(projectTask));
+        //}
     }
 }

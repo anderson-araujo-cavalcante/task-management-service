@@ -19,21 +19,22 @@ namespace TaskManagement.Domain.Services
         public async Task<IEnumerable<ProjectTask>> GetByProjectIdAsync(int id)
             => await _repository.GetAllAsync(x => x.ProjectId == id);
 
-        public async Task UpdateAsync(ProjectTask projectTask)
+        public async Task UpdateAsync(ProjectTask projectTask, int lastUpdateUser)
         {
             var projectTaskEdit = await _repository.GetByIdAsync(projectTask.Id);
 
             if (projectTaskEdit.Status != projectTask.Status) throw new Exception("Não é permitido alterar a prioridade de uma tarefa depois que ela foi criada.");
 
-
-            
+           var historics = projectTask.BuildHistoric(lastUpdateUser: lastUpdateUser, projectTaskEdit);
 
             projectTaskEdit.Title = projectTask.Title;
             projectTaskEdit.Description = projectTask.Description;
             projectTaskEdit.ExpirationDate = projectTask.ExpirationDate;
-            projectTaskEdit.ProjectId = projectTask.ProjectId;            
+            projectTaskEdit.ProjectId = projectTask.ProjectId;        
+            projectTask.TaskPriority = projectTask.TaskPriority;
 
             await _repository.UpdateAsync(projectTask);
+            await _historicRepository.AddRangeAsync(historics);
         }
 
         public async Task AddAsync(ProjectTask projectTask, int lastUpdateUser)
@@ -49,18 +50,4 @@ namespace TaskManagement.Domain.Services
             await _historicRepository.AddRangeAsync(projectTask.BuildHistoric(lastUpdateUser: lastUpdateUser));
         }
     }
-
-    //public static class ModelExtensions
-    //{
-    //    public static IEnumerable<KeyValuePair<string, object>> ValoresDiferentes<T>(this T obj, T modifiedObject)
-    //    {
-    //        foreach (var property in typeof(T).GetProperties().Where(p => !p.GetGetMethod().IsVirtual))
-    //        {
-    //            if (property.GetValue(obj).ToString() != property.GetValue(modifiedObject).ToString())
-    //            {
-    //                yield return new KeyValuePair<string, object>(property.Name, property.GetValue(modifiedObject));
-    //            }
-    //        }
-    //    }
-    //}
 }
