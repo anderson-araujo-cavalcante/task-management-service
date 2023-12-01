@@ -47,5 +47,12 @@ namespace TaskManagement.API.Controllers
             var project = await _projectService.GetByUserIdAsync(id);
             return Ok(_mapper.Map<IEnumerable<ProjectDTO>>(project));
         }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteAsync(int id)
+        {
+            await _projectService.DeleteAsync(id);
+            return Ok();
+        }
     }
 }
