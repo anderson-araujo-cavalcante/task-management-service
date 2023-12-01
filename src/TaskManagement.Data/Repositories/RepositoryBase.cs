@@ -1,5 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System.Linq;
+using System.Linq.Expressions;
 using TaskManagement.Data.Context;
+using TaskManagement.Domain.Entities;
 using TaskManagement.Domain.Interfaces.Repositories;
 
 namespace TaskManagement.Data.Repositories
@@ -17,10 +20,11 @@ namespace TaskManagement.Data.Repositories
         }
         #endregion 
 
-        public virtual async Task AddAsync(TEntity entity)
+       
+
+        public virtual async Task<IEnumerable<TEntity>> GetAllAsync(Expression<Func<TEntity, bool>> predicate)
         {
-            await dbSet.AddAsync(entity);
-            await _context.SaveChangesAsync();
+            return await dbSet.AsNoTracking().Where(predicate).ToListAsync();
         }
 
         public virtual async Task<TEntity> GetByIdAsync(int id)
@@ -28,9 +32,10 @@ namespace TaskManagement.Data.Repositories
             return await dbSet.FindAsync(id);
         }
 
-        public virtual async Task<IEnumerable<TEntity>> GetAllAsync()
+        public virtual async Task AddAsync(TEntity entity)
         {
-            return await dbSet.AsNoTracking().ToListAsync();
+            await dbSet.AddAsync(entity);
+            await _context.SaveChangesAsync();
         }
 
         public virtual async Task UpdateAsync(TEntity entity)

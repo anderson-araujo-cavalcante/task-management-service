@@ -9,7 +9,7 @@ namespace TaskManagement.Domain.Services
 
         public ServiceBase(IRepositoryBase<TEntity> repository)
         {
-            _repository = repository;
+            _repository = repository ?? throw new ArgumentNullException(nameof(repository));
         }
 
         public async Task AddAsync(TEntity obj)
@@ -20,11 +20,6 @@ namespace TaskManagement.Domain.Services
         public async Task<TEntity> GetByIdAsync(int id)
         {
             return await _repository.GetByIdAsync(id);
-        }
-
-        public async Task<IEnumerable<TEntity>> GetAllAsync()
-        {
-            return await _repository.GetAllAsync();
         }
 
         public async Task UpdateAsync(TEntity obj)
