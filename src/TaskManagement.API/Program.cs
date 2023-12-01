@@ -9,10 +9,14 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.ResolveDependencies();
 builder.AddDbContext();
+builder.Services.MapperConfig();
+builder.Services.ResolveDependencies();
 
 var app = builder.Build();
+
+app.MigrationInitialisation();
+//DatabaseManagementService.MigrationInitialisation(app);
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
