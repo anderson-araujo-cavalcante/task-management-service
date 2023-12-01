@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using TaskManagement.Domain.DTO;
+using TaskManagement.Domain.DTOs.Project;
 using TaskManagement.Domain.Entities;
 using TaskManagement.Domain.Interfaces.Services;
 
