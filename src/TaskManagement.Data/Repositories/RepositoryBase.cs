@@ -23,6 +23,11 @@ namespace TaskManagement.Data.Repositories
             return await dbSet.AsNoTracking().Where(predicate).ToListAsync();
         }
 
+        public virtual async Task<int> CountAsync(Expression<Func<TEntity, bool>> predicate)
+        {
+            return await dbSet.AsNoTracking().CountAsync(predicate);
+        }
+
         public virtual async Task<TEntity> GetByIdAsync(int id)
         {
             return await dbSet.FindAsync(id);
