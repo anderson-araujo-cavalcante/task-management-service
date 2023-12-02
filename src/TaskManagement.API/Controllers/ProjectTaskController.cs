@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
 using TaskManagement.Domain.DTOs.Project;
 using TaskManagement.Domain.DTOs.ProjectTask;
 using TaskManagement.Domain.DTOs.TaskComment;
@@ -43,6 +44,13 @@ namespace TaskManagement.API.Controllers
             var projectTask = _mapper.Map<ProjectTask>(projectTaskDTO);
             await _projectTaskService.UpdateAsync(projectTask, userUpdate);
             return Ok();
-        }        
+        }
+
+        [HttpGet("project/{id}")]
+        public async Task<IActionResult> GetByProjectIdAsync(int id)
+        {
+            var projectTask = await _projectTaskService.GetByProjectIdAsync(id);
+            return Ok(_mapper.Map<IEnumerable<ProjectTaskDTO>>(projectTask));
+        }
     }
 }

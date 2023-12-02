@@ -24,15 +24,7 @@ namespace TaskManagement.Domain.Services
             await ValidateTaskLimite(projectTask);
 
             var projectTaskEdit = await _repository.GetByIdAsync(projectTask.Id);
-            if (projectTaskEdit.Status != projectTask.Status) throw new Exception("Não é permitido alterar a prioridade de uma tarefa depois que ela foi criada.");
-
-          // var historics = projectTask.BuildHistoric(lastUpdateUser: lastUpdateUser, projectTaskEdit);
-          
-            //projectTaskEdit.Title = projectTask.Title;
-            //projectTaskEdit.Description = projectTask.Description;
-            //projectTaskEdit.ExpirationDate = projectTask.ExpirationDate;
-            //projectTaskEdit.ProjectId = projectTask.ProjectId;        
-            //projectTask.TaskPriority = projectTask.TaskPriority;
+            if (projectTaskEdit.TaskPriority != projectTask.TaskPriority) throw new Exception("Não é permitido alterar a prioridade de uma tarefa depois que ela foi criada.");
 
             await _repository.UpdateAsync(projectTask);
 
@@ -42,7 +34,7 @@ namespace TaskManagement.Domain.Services
 
         public async Task AddAsync(ProjectTask projectTask, int lastUpdateUser)
         {
-            if (projectTask.Status == 0) throw new Exception("A tarefa deve ter uma prioridade atribuída (baixa, média, alta).");
+            if (projectTask.TaskPriority == 0) throw new Exception("A tarefa deve ter uma prioridade atribuída (baixa, média, alta).");
            
             await ValidateTaskLimite(projectTask);
 
