@@ -13,7 +13,7 @@ namespace TaskManagement.Domain.Services
             IHistoricRepository historicRepository) 
             : base(projectTaskRepository)
         {
-            _historicRepository = historicRepository ?? throw new ArgumentNullException(nameof(historicRepository)); ;
+            _historicRepository = historicRepository ?? throw new ArgumentNullException(nameof(historicRepository)); 
         }
 
         public async Task<IEnumerable<ProjectTask>> GetByProjectIdAsync(int id)
@@ -21,33 +21,43 @@ namespace TaskManagement.Domain.Services
 
         public async Task UpdateAsync(ProjectTask projectTask, int lastUpdateUser)
         {
-            var projectTaskEdit = await _repository.GetByIdAsync(projectTask.Id);
+            await ValidateTaskLimite(projectTask);
 
+            var projectTaskEdit = await _repository.GetByIdAsync(projectTask.Id);
             if (projectTaskEdit.Status != projectTask.Status) throw new Exception("Não é permitido alterar a prioridade de uma tarefa depois que ela foi criada.");
 
-           var historics = projectTask.BuildHistoric(lastUpdateUser: lastUpdateUser, projectTaskEdit);
-
-            projectTaskEdit.Title = projectTask.Title;
-            projectTaskEdit.Description = projectTask.Description;
-            projectTaskEdit.ExpirationDate = projectTask.ExpirationDate;
-            projectTaskEdit.ProjectId = projectTask.ProjectId;        
-            projectTask.TaskPriority = projectTask.TaskPriority;
+          // var historics = projectTask.BuildHistoric(lastUpdateUser: lastUpdateUser, projectTaskEdit);
+          
+            //projectTaskEdit.Title = projectTask.Title;
+            //projectTaskEdit.Description = projectTask.Description;
+            //projectTaskEdit.ExpirationDate = projectTask.ExpirationDate;
+            //projectTaskEdit.ProjectId = projectTask.ProjectId;        
+            //projectTask.TaskPriority = projectTask.TaskPriority;
 
             await _repository.UpdateAsync(projectTask);
+
+            var historics = Historic2<ProjectTask>.Build(newData: projectTask, oldData: projectTaskEdit, lastUpdateUser, projectTask.Id, x => x.Name != "Id" && x.Name != "Project");
             await _historicRepository.AddRangeAsync(historics);
         }
 
         public async Task AddAsync(ProjectTask projectTask, int lastUpdateUser)
         {
             if (projectTask.Status == 0) throw new Exception("A tarefa deve ter uma prioridade atribuída (baixa, média, alta).");
+           
+            await ValidateTaskLimite(projectTask);
 
-            var totalProjects = await _repository.CountAsync(_ => _.ProjectId == projectTask.ProjectId);
-
-            var taskLimite = 20;
-            if(totalProjects >= taskLimite) throw new Exception("Limite de tarefas atingido para este projeto.");
-            
             await _repository.AddAsync(projectTask);
-            await _historicRepository.AddRangeAsync(projectTask.BuildHistoric(lastUpdateUser: lastUpdateUser));
+
+            var historics = Historic2<ProjectTask>.Build(newData: projectTask, oldData: null, lastUpdateUser, projectTask.Id, x => x.Name != "Id" && x.Name != "Project" && x.Name != "Comments");
+            await _historicRepository.AddRangeAsync(historics);
+        }
+
+        private async Task ValidateTaskLimite(ProjectTask projectTask)
+        {
+            var totalProjects = await _repository.CountAsync(_ => _.ProjectId == projectTask.ProjectId);
+            var taskLimite = 20;
+
+            if (totalProjects >= taskLimite) throw new Exception("Limite de tarefas atingido para este projeto.");
         }
     }
 }

@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using TaskManagement.Domain.Enuns;
+﻿using TaskManagement.Domain.Enuns;
 
 namespace TaskManagement.Domain.DTOs.ProjectTask
 {
@@ -12,7 +7,8 @@ namespace TaskManagement.Domain.DTOs.ProjectTask
         public string Title { get; set; }
         public string Description { get; set; }
         public DateTime ExpirationDate { get; set; }
-        public TaskPriority Priority { get; set; }
+        public Enuns.TaskStatus Status { get; set; }
+        public TaskPriority TaskPriority { get; set; }
         public int ProjectId { get; set; }
     }
 }

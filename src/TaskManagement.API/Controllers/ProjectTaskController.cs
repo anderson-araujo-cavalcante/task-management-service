@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using TaskManagement.Domain.DTOs.Project;
 using TaskManagement.Domain.DTOs.ProjectTask;
+using TaskManagement.Domain.DTOs.TaskComment;
 using TaskManagement.Domain.Entities;
 using TaskManagement.Domain.Interfaces.Services;
 using TaskManagement.Domain.Services;
@@ -42,13 +43,6 @@ namespace TaskManagement.API.Controllers
             var projectTask = _mapper.Map<ProjectTask>(projectTaskDTO);
             await _projectTaskService.UpdateAsync(projectTask, userUpdate);
             return Ok();
-        }
-
-        //[HttpGet("user/{id}")]
-        //public async Task<ActionResult<IEnumerable<ProjectTaskDTO>>> GetByUserIdAsync(int id)
-        //{
-        //    var projectTask = await _projectTaskService.GetByUserIdAsync(id);
-        //    return Ok(_mapper.Map<IEnumerable<ProjectTaskDTO>>(projectTask));
-        //}
+        }        
     }
 }

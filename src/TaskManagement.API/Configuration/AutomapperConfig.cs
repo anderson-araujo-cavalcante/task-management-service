@@ -11,6 +11,7 @@ namespace TaskManagement.API.Configuration
             {
                 cfg.AddProfile<ProjectProfile>();
                 cfg.AddProfile<ProjectTaskProfile>();
+                cfg.AddProfile<TaskCommentProfile>();
             });
 
             services.AddSingleton(autoMapperConfig.CreateMapper());

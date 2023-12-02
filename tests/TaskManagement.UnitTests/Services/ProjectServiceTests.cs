@@ -61,7 +61,6 @@ namespace TaskManagement.UnitTests.Services
             {
                 var faker = new Faker<Project>()
                     .RuleFor(x => x.Id, f =>i)
-                    .RuleFor(x => x.CreatedAt, DateTime.Now.AddDays(i))
                     .RuleFor(x => x.UserId, f => userId)
                     .RuleFor(x => x.Name, f => f.Random.String(20));
 

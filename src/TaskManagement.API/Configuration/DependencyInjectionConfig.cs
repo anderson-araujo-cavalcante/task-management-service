@@ -14,10 +14,12 @@ namespace TaskManagement.API.Configuration
 
             services.AddScoped<IProjectService, ProjectService>();
             services.AddScoped<IProjectTaskService, ProjectTaskService>();            
+            services.AddScoped<ITaskCommentService, TaskCommentService>();            
 
             services.AddScoped<IProjectRepository, ProjectRepository>();
             services.AddScoped<IProjectTaskRepository, ProjectTaskRepository>();
             services.AddScoped<IHistoricRepository, HistoricRepository>();
+            services.AddScoped<ITaskCommentRepository, TaskCommentRepository>();
 
             return services;
         }
