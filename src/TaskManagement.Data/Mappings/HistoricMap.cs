@@ -6,7 +6,7 @@ namespace TaskManagement.Data.Mappings
 {
     public class HistoricMap : IEntityTypeConfiguration<Historic>
     {
-        private const string TABLE_NAME = "Tasks";
+        private const string TABLE_NAME = "Historics";
 
         public void Configure(EntityTypeBuilder<Historic> builder)
         {

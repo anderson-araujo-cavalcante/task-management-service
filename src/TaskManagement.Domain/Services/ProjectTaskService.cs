@@ -1,8 +1,8 @@
-﻿using System.Globalization;
-using TaskManagement.Domain.Entities;
+﻿using TaskManagement.Domain.Entities;
+using TaskManagement.Domain.Extensions;
 using TaskManagement.Domain.Interfaces.Repositories;
 using TaskManagement.Domain.Interfaces.Services;
-using TaskManagement.Domain.Extensions;
+using TaskManagement.Domain.Responses;
 
 namespace TaskManagement.Domain.Services
 {
@@ -10,10 +10,10 @@ namespace TaskManagement.Domain.Services
     {
         private readonly IHistoricRepository _historicRepository;
         public ProjectTaskService(IProjectTaskRepository projectTaskRepository,
-            IHistoricRepository historicRepository) 
+            IHistoricRepository historicRepository)
             : base(projectTaskRepository)
         {
-            _historicRepository = historicRepository ?? throw new ArgumentNullException(nameof(historicRepository)); 
+            _historicRepository = historicRepository ?? throw new ArgumentNullException(nameof(historicRepository));
         }
 
         public async Task<IEnumerable<ProjectTask>> GetByProjectIdAsync(int id)
@@ -26,16 +26,23 @@ namespace TaskManagement.Domain.Services
             var projectTaskEdit = await _repository.GetByIdAsync(projectTask.Id);
             if (projectTaskEdit.TaskPriority != projectTask.TaskPriority) throw new Exception("Não é permitido alterar a prioridade de uma tarefa depois que ela foi criada.");
 
-            await _repository.UpdateAsync(projectTask);
+            var historics = Historic2<ProjectTask>.Build(newData: projectTask, oldData: projectTaskEdit, lastUpdateUser, projectTask.Id, x => x.Name != "Id" && x.Name != "Project" && x.Name != "Comments");
 
-            var historics = Historic2<ProjectTask>.Build(newData: projectTask, oldData: projectTaskEdit, lastUpdateUser, projectTask.Id, x => x.Name != "Id" && x.Name != "Project");
+            projectTaskEdit.Title = projectTask.Title;
+            projectTaskEdit.Description = projectTask.Description;
+            projectTaskEdit.ExpirationDate = projectTask.ExpirationDate;
+            projectTaskEdit.ProjectId = projectTask.ProjectId;
+            projectTaskEdit.TaskPriority = projectTask.TaskPriority;
+
+            await _repository.UpdateAsync(projectTaskEdit);
+
             await _historicRepository.AddRangeAsync(historics);
         }
 
         public async Task AddAsync(ProjectTask projectTask, int lastUpdateUser)
         {
             if (projectTask.TaskPriority == 0) throw new Exception("A tarefa deve ter uma prioridade atribuída (baixa, média, alta).");
-           
+
             await ValidateTaskLimite(projectTask);
 
             await _repository.AddAsync(projectTask);
@@ -50,6 +57,23 @@ namespace TaskManagement.Domain.Services
             var taskLimite = 20;
 
             if (totalProjects >= taskLimite) throw new Exception("Limite de tarefas atingido para este projeto.");
+        }
+
+        public async Task<IEnumerable<PerformanceResponse>> GetTaskPerformanceAsync(string userId, int lastDays)
+        {
+            if (userId != "admin") throw new Exception("Limite de tarefas atingido para este projeto.");
+
+            var historics = await _historicRepository.GetCompletedTasks(lastDays);
+
+            var group = historics.GroupBy(x => x.UserId);
+
+            var performance = group.Select(x => new PerformanceResponse()
+            {
+                UserId = x.Key,
+                TotalTaskCompleteds = x.Count()
+            });
+
+            return performance;
         }
     }
 }

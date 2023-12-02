@@ -2,8 +2,9 @@
 
 namespace TaskManagement.Domain.Interfaces.Repositories
 {
-    public interface IHistoricRepository
+    public interface IHistoricRepository : IRepositoryBase<Historic>
     {
         Task AddRangeAsync(IEnumerable<Historic> historics);
+        Task<IEnumerable<Historic>> GetCompletedTasks(int lastDays);
     }
 }

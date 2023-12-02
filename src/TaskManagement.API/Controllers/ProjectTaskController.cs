@@ -1,13 +1,8 @@
 ﻿using AutoMapper;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
-using TaskManagement.Domain.DTOs.Project;
 using TaskManagement.Domain.DTOs.ProjectTask;
-using TaskManagement.Domain.DTOs.TaskComment;
 using TaskManagement.Domain.Entities;
 using TaskManagement.Domain.Interfaces.Services;
-using TaskManagement.Domain.Services;
 
 namespace TaskManagement.API.Controllers
 {
