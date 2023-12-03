@@ -1,7 +1,7 @@
 version: '3.9'
 
 services:
-  mysql:
+  database:
     image: mysql:8.0
     container_name: mysql
     ports:
@@ -12,7 +12,26 @@ services:
       - MYSQL_USER=sa
       - MYSQL_ROOT_PASSWORD=123456
     volumes:
-      - mysqldata:/var/lib/mysql  
+      - mysqldata:/var/lib/mysql
+    restart: always
+  task.management.api:
+    image: ${DOCKER_REGISTRY-}taskmanagementapi
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      DbServer: "database"
+      DbPort: "3306"
+      DbUser: "sa"
+      Password: "MyPass@word"
+      Database: "TaskManagementDb"
+      DBHOST: database
+      ASPNETCORE_ENVIRONMENT: Development
+    ports: 
+      - "8000:80"
+      - "8001:443"
+    depends_on: 
+      - database      
 
 volumes:
   mysqldata:
