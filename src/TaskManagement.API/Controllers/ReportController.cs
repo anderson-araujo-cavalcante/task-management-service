@@ -11,11 +11,9 @@ namespace TaskManagement.API.Controllers
     [ApiController]
     public class ReportController : ControllerBase
     {
-        private readonly IMapper _mapper;
         private readonly IProjectTaskService _projectTaskService;
-        public ReportController(IMapper mapper, IProjectTaskService projectTaskService)
+        public ReportController(IProjectTaskService projectTaskService)
         {
-            _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
             _projectTaskService = projectTaskService ?? throw new ArgumentNullException(nameof(projectTaskService)); ;
         }
 

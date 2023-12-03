@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace TaskManagement.Domain.DTOs.Project
+﻿namespace TaskManagement.Domain.DTOs.Project
 {
     public class ProjectEditDTO
     {
