@@ -81,7 +81,7 @@ namespace TaskManagement.Data.Migrations
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "TaskComment",
+                name: "TaskComments",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -93,9 +93,9 @@ namespace TaskManagement.Data.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_TaskComment", x => x.Id);
+                    table.PrimaryKey("PK_TaskComments", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_TaskComment_Tasks_ProjectTaskId",
+                        name: "FK_TaskComments_Tasks_ProjectTaskId",
                         column: x => x.ProjectTaskId,
                         principalTable: "Tasks",
                         principalColumn: "Id",
@@ -104,8 +104,8 @@ namespace TaskManagement.Data.Migrations
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateIndex(
-                name: "IX_TaskComment_ProjectTaskId",
-                table: "TaskComment",
+                name: "IX_TaskComments_ProjectTaskId",
+                table: "TaskComments",
                 column: "ProjectTaskId");
 
             migrationBuilder.CreateIndex(
@@ -121,7 +121,7 @@ namespace TaskManagement.Data.Migrations
                 name: "Historics");
 
             migrationBuilder.DropTable(
-                name: "TaskComment");
+                name: "TaskComments");
 
             migrationBuilder.DropTable(
                 name: "Tasks");

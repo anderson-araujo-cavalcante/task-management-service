@@ -11,7 +11,7 @@ using TaskManagement.Data.Context;
 namespace TaskManagement.Data.Migrations
 {
     [DbContext(typeof(TaskManagementContext))]
-    [Migration("20231202010613_InitialCreate")]
+    [Migration("20231202184345_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -125,7 +125,7 @@ namespace TaskManagement.Data.Migrations
 
                     b.HasIndex("ProjectTaskId");
 
-                    b.ToTable("TaskComment");
+                    b.ToTable("TaskComments");
                 });
 
             modelBuilder.Entity("TaskManagement.Domain.Entities.ProjectTask", b =>

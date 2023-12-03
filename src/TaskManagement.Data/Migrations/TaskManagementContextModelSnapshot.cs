@@ -122,7 +122,7 @@ namespace TaskManagement.Data.Migrations
 
                     b.HasIndex("ProjectTaskId");
 
-                    b.ToTable("TaskComment");
+                    b.ToTable("TaskComments");
                 });
 
             modelBuilder.Entity("TaskManagement.Domain.Entities.ProjectTask", b =>
