@@ -92,5 +92,6 @@ Abri o navegador e acessar a url ```http://localhost:8000/swagger/index.html```
 1. Usar ferramenta para auxiliar no deploy, por exemplo [Octopus](https://octopus.com/)
 1. Usar ferramenta para integração continua, por exemplo o [TeamCity](https://www.jetbrains.com/pt-br/teamcity/);
 1. Add logs para auxiliar rastreabilidade de bugs e visualiza-los através de serviços como [kibana](https://www.elastic.co/pt/kibana);
-1. Usar ferramenta para testes de performance, por exemplo [K6](https://k6.io/)
+1. Usar ferramenta para testes de performance, por exemplo [K6](https://k6.io/);
+1. Criar documentação para padronizar criação de branchs, commits e boas práticas de códicação;
 
