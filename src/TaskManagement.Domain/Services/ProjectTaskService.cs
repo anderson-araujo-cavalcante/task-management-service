@@ -23,7 +23,8 @@ namespace TaskManagement.Domain.Services
         {
             await ValidateTaskLimite(projectTask);
 
-            var projectTaskEdit = await _repository.GetByIdAsync(projectTask.Id);
+            var projectTaskEdit = await _repository.GetByIdAsync(projectTask.Id) ?? throw new Exception("Tarefa não existe.");
+
             if (projectTaskEdit.TaskPriority != projectTask.TaskPriority) throw new Exception("Não é permitido alterar a prioridade de uma tarefa depois que ela foi criada.");
 
             var historics = Historic2<ProjectTask>.Build(newData: projectTask, oldData: projectTaskEdit, lastUpdateUser, projectTask.Id, x => x.Name != "Id" && x.Name != "Project" && x.Name != "Comments");
@@ -61,7 +62,7 @@ namespace TaskManagement.Domain.Services
 
         public async Task<IEnumerable<PerformanceResponse>> GetTaskPerformanceAsync(string userId, int lastDays)
         {
-            if (userId != "admin") throw new Exception("Limite de tarefas atingido para este projeto.");
+            if (userId != "admin") throw new Exception("Acesso restrito.");
 
             var historics = await _historicRepository.GetCompletedTasks(lastDays);
 
@@ -75,5 +76,32 @@ namespace TaskManagement.Domain.Services
 
             return performance;
         }
+
+
+        #region IDisposable Members
+
+        private bool _disposed;
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!_disposed)
+            {
+                if (disposing)
+                {
+                    _repository?.Dispose();
+                    _historicRepository?.Dispose();
+                }
+
+                _disposed = true;
+            }
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        #endregion IDisposable Members
     }
 }

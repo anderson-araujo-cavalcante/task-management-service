@@ -30,4 +30,8 @@
     <ProjectReference Include="..\..\src\TaskManagement.Domain\TaskManagement.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Controllers\" />
+  </ItemGroup>
+
 </Project>

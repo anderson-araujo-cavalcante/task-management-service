@@ -14,7 +14,8 @@ namespace TaskManagement.Domain.Services
 
         public async Task DeleteAsync(int id)
         {
-            var project = await _repository.GetByIdAsync(id);
+            var project = await _repository.GetByIdAsync(id) ?? throw new Exception("Projeto não existe.");
+
             if (project.Tasks.Any(_ => _.Status != Enuns.TaskStatus.Completed)) throw new Exception("Projeto não pode ser removido, ainda há tarefas pendentes, conclua ou remova as tarefas antes de continuar.");
 
             await DeleteAsync(id);

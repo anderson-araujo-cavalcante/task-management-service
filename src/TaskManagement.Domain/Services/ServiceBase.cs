@@ -32,9 +32,29 @@ namespace TaskManagement.Domain.Services
             await _repository.RemoveAsync(id);
         }
 
+        #region IDisposable Members
+
+        private bool _disposed;
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!_disposed)
+            {
+                if (disposing)
+                {
+                    _repository?.Dispose();
+                }
+
+                _disposed = true;
+            }
+        }
+
         public void Dispose()
         {
-            _repository.Dispose();
+            Dispose(true);
+            GC.SuppressFinalize(this);
         }
+
+        #endregion IDisposable Members
     }
 }

@@ -52,9 +52,29 @@ namespace TaskManagement.Data.Repositories
             await _context.SaveChangesAsync();
         }
 
+        #region IDisposable Members
+
+        private bool _disposed;
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!_disposed)
+            {
+                if (disposing)
+                {
+                    _context?.Dispose();
+                }
+
+                _disposed = true;
+            }
+        }
+
         public void Dispose()
         {
-            throw new NotImplementedException();
+            Dispose(true);
+            GC.SuppressFinalize(this);
         }
+
+        #endregion IDisposable Members
     }
 }
