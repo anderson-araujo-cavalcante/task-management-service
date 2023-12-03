@@ -65,8 +65,8 @@ Abri o navegador e acessar a url ```http://localhost:8000/swagger/index.html```
 > Refinamento de negócio para futuras implementações ou melhorias.
 
 1. Porque não é permitido alterar a prioridade da tarefa? o negocio muda conforme a necessidade e as tarefas seguem suas prioridades.
-1. No relatório terá a opção de visualizar tarefas que estam em atraso? por exemplo tarefas que estão "vencidas" há muito tempo ou tarefas que estão próximo de vencer;
-1. É valido temos um status geral do projeto? onde será apresentado a situação atual do projeto de acordo com todas tarefas associadas a ele;
+1. No relatório terá a opção de visualizar tarefas que estão em atraso? por exemplo tarefas que estão "vencidas" há muito tempo ou tarefas que estão próximo de vencer;
+1. É valido termos um status geral do projeto? onde será apresentado a situação atual do projeto de acordo com todas tarefas associadas a ele;
 1. Ao remover um projeto é interessante incluir um comentário contendo motivo da exclusão?
 1. Poderá incluir comentários após a tarefa estar concluida?
 1. O limite de tarefas por projeto (máximo de 20) deve considerar todas tarefas independente de seus status? ou tarefas concluidas devem ser desconsideradas?
